@@ -603,7 +603,7 @@ task GatherBqsrReports {
    String output_report_filename
 
    Int preemptible_tries
-   Int disk_size = disk_size
+   Int disk_size = ceil(size(input_bam, "GB")  * 2 ) 
    Float mem_size_gb = 4
 
    String docker_image
