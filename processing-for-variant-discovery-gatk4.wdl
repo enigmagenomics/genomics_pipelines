@@ -565,7 +565,7 @@ task BaseRecalibrator {
     File ref_fasta_index
   
     Int preemptible_tries
-    Int disk_size = ceil(size(input_bam, "GB")  * 2 )
+    Int disk_size = ceil(size(input_bam, "GB")  * 2 ) + 50
     Float mem_size_gb = 6
 
     String docker_image
