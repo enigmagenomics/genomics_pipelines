@@ -198,7 +198,7 @@ workflow PreProcessingForVariantDiscovery_GATK4 {
       input_bqsr_reports = BaseRecalibrator.recalibration_report,
       output_report_filename = base_file_name + ".recal_data.csv",
       docker_image = gatk_docker,
-      disk_size=agg_small_disk
+      disk_size=agg_small_disk,
       gatk_path = gatk_path,
       preemptible_tries = preemptible_tries
   }
