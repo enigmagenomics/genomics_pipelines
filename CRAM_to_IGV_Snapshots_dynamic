@@ -2,15 +2,7 @@ version 1.0
 
 workflow mega_pipeline {
 
-    File ref_fasta
-    File ref_fasta_index
-    File ref_fasta_dict
-    File inputCram
-    File inputCramIndex
-    File master_gene_list
-    File GOF_gene_list
-    String samplename
-    String output_files_path
+
 
 
     call depthOfCov {
