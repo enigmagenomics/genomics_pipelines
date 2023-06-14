@@ -1,5 +1,7 @@
+version 1.0
+
 workflow mega_pipeline {
-    input {
+
     File ref_fasta
     File DoC_interval_list
     File ref_fasta_index
@@ -10,7 +12,7 @@ workflow mega_pipeline {
     File GOF_gene_list
     String samplename
     String output_files_path
-    }
+
 
     call depthOfCov {
         input: refFasta=ref_fasta,
