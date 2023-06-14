@@ -3,7 +3,6 @@ version 1.0
 workflow mega_pipeline {
 
     File ref_fasta
-    File DoC_interval_list
     File ref_fasta_index
     File ref_fasta_dict
     File inputCram
