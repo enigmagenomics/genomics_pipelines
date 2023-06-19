@@ -295,7 +295,7 @@ task SamToFastqAndBwaMem {
 
     Int compression_level
     Int preemptible_tries
-    Int disk_size = ceil(size(input_bam, "GB")  * 3 )
+    Int disk_size = ceil(size(input_bam, "GB")  * 3 ) + 30
 
     String docker_image
     String bwa_path
