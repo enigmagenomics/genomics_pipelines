@@ -150,7 +150,37 @@ workflow mega_pipeline {
     sampleID=samplename
     }
 
-
+  # Outputs that will be retained when execution is complete  
+  output {
+        #DOC:
+        File sampleGeneSummary = depthOfCov.sampleGeneSummary
+        File sampleSummary = depthOfCov.sampleSummary
+        Float sampleMeanCoverage = depthOfCov.sampleMeanCoverage
+        File sampleStatistics = depthOfCov.sampleStatistics
+        File sampleIntervalSummary = depthOfCov.sampleIntervalSummary
+        File sampleIntervalStatistics = depthOfCov.sampleIntervalStatistics
+        File sampleCumulativeCoverageProportions = depthOfCov.sampleCumulativeCoverageProportions
+        File sampleCumulativeCoverageCounts = depthOfCov.sampleCumulativeCoverageCounts
+        #DV:
+        File gvcf = deep_variant.gvcf
+        File resource_log = deep_variant.resource_log
+        File stats_report = deep_variant.stats_report
+        File filtered_vcf = bgzip.filtered_vcf
+        File filtered_vcf_index = bgzip.filtered_vcf_index
+        String variantcount = variantcount_vcf.variantcount
+        File normalizedVCF= VTRecal.normalizedVCF
+        File normalizedVCF_index= VTRecal.normalizedVCF_index
+        #VEP:
+        File vepannotated_vcf= combineOutputFiles.vepannotated_vcf
+        #variant_filtering:
+        File path_var_HQ= VariantFilter.path_var_HQ
+        File path_var_HQ_non_clinical= VariantFilter.path_var_HQ_non_clinical        
+        File path_var_LQ= VariantFilter.path_var_LQ
+        #IGV:
+        File variants_HQ_IGV_snapshots = IGV_Snapshots.variants_HQ_IGV_snapshots
+        File variants_HQ_non_clinical_IGV_snapshots = IGV_Snapshots.variants_HQ_non_clinical_IGV_snapshots
+        File variants_LQ_IGV_snapshots = IGV_Snapshots.variants_LQ_IGV_snapshots
+  }
     
 }
 
