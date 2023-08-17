@@ -15,6 +15,42 @@ workflow mega_pipeline {
     String samplename
     String output_files_path
     String TestType
+
+File    geneList
+Int runtime_disk
+File    WGS_interval_list
+File    WES_interval_list
+Int diskSpace
+Int resource_log_interval
+Int runtime_cpus
+String  runtime_docker
+Int runtime_preemptible
+Int memoryGb
+Int minBaseQuality
+Int minMappingQuality
+Int preemptible
+Int GATK_diskGb
+Int GATK_memoryGb
+Int memoryGb
+Int RAM
+Int HDD
+Int boot_disk_gb
+File    chain
+File    Clinvar_genes
+Int cpu_cores
+File    GCD_genes
+File    OMIM_genes
+Int output_disk_gb
+Int ram_gb
+File    Rscript_file
+Int bootDiskSizeGb_VEP
+Int cpu_VEP
+Int diskGb_VEP
+Int fork
+Int memoryGb_VEP
+Int nearestGeneDistance
+
+
     }
 
     call depthOfCov {
@@ -24,7 +60,12 @@ workflow mega_pipeline {
             refFastaDict=ref_fasta_dict,
             inputCram=inputCram,
             inputCramIndex=inputCramIndex,
-            sampleName=samplename
+            sampleName=samplename,
+            geneList=geneList,
+            memoryGb=memoryGb,
+            minBaseQuality=minBaseQuality,
+            minMappingQuality=minMappingQuality,
+            preemptible=preemptible
             
     }
     
@@ -32,7 +73,9 @@ workflow mega_pipeline {
     
     call ChooseBed {
     input:
-         TestType=TestType
+         TestType=TestType, 
+         WGS_interval_list=WGS_interval_list,
+        WES_interval_list=WES_interval_list
 
   }
     
@@ -52,19 +95,26 @@ workflow mega_pipeline {
             crai=inputCramIndex,
             reference_fasta=ref_fasta,
             reference_fasta_fai=ref_fasta_index,
-            model_type=TestType
+            model_type=TestType,
+            resource_log_interval=resource_log_interval,
+            runtime_cpus=runtime_cpus,
+            runtime_docker=runtime_docker,
+            runtime_preemptible=runtime_preemptible
     }
 
     call bgzip {
         input:
             sample=samplename,
-            uncompressed_vcf=deep_variant.vcf
+            uncompressed_vcf=deep_variant.vcf,
+            runtime_disk=runtime_disk
     }
 
     call variantcount_vcf {
         input:
             vcf = bgzip.filtered_vcf,
-            sampleId=samplename
+            sampleId=samplename,
+            HDD=HDD,
+            RAM=RAM
 
     }   
 
@@ -72,7 +122,9 @@ workflow mega_pipeline {
     call UnZip { 
         input:
             vcfFileGz = bgzip.filtered_vcf,
-            sampleId = samplename
+            sampleId = samplename,
+            RAM=RAM,
+            HDD=HDD
     }
     
     call VTRecal {
@@ -82,7 +134,9 @@ workflow mega_pipeline {
             refFasta=ref_fasta,
             refFastaDict=ref_fasta_dict,
             refFastaIdx=ref_fasta_index,
-            sampleId=samplename
+            sampleId=samplename, 
+            RAM=RAM,
+            HDD=HDD
     }
     
     call GATKVariantsToTable {
@@ -92,6 +146,8 @@ workflow mega_pipeline {
             refFastaFai=ref_fasta_index,
             refFastaDict=ref_fasta_dict,
             samplesetId=samplename,
+            GATK_diskGb=GATK_diskGb,
+            GATK_memoryGb=GATK_memoryGb
            
     }
     call vep_task {
@@ -101,7 +157,13 @@ workflow mega_pipeline {
             refFastaFai=ref_fasta_index,
             refFastaDict=ref_fasta_dict,
             samplesetId=samplename,
-            normalizedvcfFileGz=VTRecal.normalizedVCF
+            normalizedvcfFileGz=VTRecal.normalizedVCF,
+            bootDiskSizeGb_VEP=bootDiskSizeGb_VEP,
+            cpu_VEP=cpu_VEP,
+            diskGb_VEP=diskGb_VEP,
+            fork=fork,
+            memoryGb_VEP=memoryGb_VEP,
+            nearestGeneDistance=nearestGeneDistance
     }
     
     call combineOutputFiles {
@@ -109,6 +171,7 @@ workflow mega_pipeline {
             samplesetId=samplename,
             vepOutputFile=vep_task.VEP_Output,
             gatkOutputFile=GATKVariantsToTable.GATK_output,
+            diskSpace=diskSpace
             
     }
 
@@ -117,7 +180,16 @@ workflow mega_pipeline {
      input_vcf=combineOutputFiles.vepannotated_vcf,
      master_gene_list=master_gene_list,
      GOF_gene_list=GOF_gene_list,
-     samplename=samplename
+     samplename=samplename,
+     boot_disk_gb=boot_disk_gb,
+     chain=chain,
+     Clinvar_genes=Clinvar_genes,
+     cpu_cores=cpu_cores,
+     GCD_genes=GCD_genes,
+     OMIM_genes=OMIM_genes,
+     output_disk_gb=output_disk_gb,
+     ram_gb=ram_gb,
+     Rscript_file=Rscript_file
   }
 
     call IGV_Snapshots{
@@ -127,7 +199,8 @@ workflow mega_pipeline {
     path_var_HQ_IGV_bed=VariantFilter.path_var_HQ_IGV_bed,
     path_var_HQ_non_clinical_IGV_bed=VariantFilter.path_var_HQ_non_clinical_IGV_bed,
     path_var_LQ_IGV_bed=VariantFilter.path_var_LQ_IGV_bed,
-    sampleID=samplename
+    sampleID=samplename,
+    memoryGb=memoryGb
   }
 
     call data_transfer{
