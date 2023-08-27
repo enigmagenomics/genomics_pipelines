@@ -642,7 +642,7 @@ task ApplyBQSR {
     File ref_fasta_index
 
     Int preemptible_tries
-    Int disk_size = ceil(size(input_bam, "GB")  * 2 )
+    Int disk_size = ceil(size(input_bam, "GB")  * 3 )
     Float mem_size_gb = 4
 
     String docker_image
