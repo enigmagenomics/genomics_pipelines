@@ -633,8 +633,8 @@ task vep_task {
    
     
      #   CLINVAR
-    File clinvar="gs://fc-268e3277-9518-4b28-9f5e-1664c9c5c093/ch38/annotation_files/VEP_files/clinvar_20230213.vcf.gz"
-    File clinvar_index="gs://fc-268e3277-9518-4b28-9f5e-1664c9c5c093/ch38/annotation_files/VEP_files/clinvar_20230213.vcf.gz.tbi"
+    File clinvar="gs://fc-268e3277-9518-4b28-9f5e-1664c9c5c093/ch38/annotation_files/VEP_files/clinvar_20230826.vcf.gz"
+    File clinvar_index="gs://fc-268e3277-9518-4b28-9f5e-1664c9c5c093/ch38/annotation_files/VEP_files/clinvar_20230826.vcf.gz.tbi"
 }
     
     
@@ -874,6 +874,7 @@ task VariantFilter {
         File all_variants_cancer_genes="~{samplename}.all_variants_cancer_genes.csv.gz"
         File all_variants_carrier_genes="~{samplename}.all_variants_carrier_genes.csv.gz"
         File total_variant_count="~{samplename}.total_variant_count.csv"
+        File variants_PGx="${samplename}.variants_PGx.csv"
        }  
 }
 
