@@ -439,7 +439,7 @@ task SortAndFixTags {
     preemptible: preemptible_tries
     docker: docker_image
     memory: "~{mem_size_gb} GiB"
-    disks: "local-disk " + disk_size + " HDD"
+    disks: "local-disk " + disk_size + mem_size_gb + " HDD"
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
