@@ -407,7 +407,7 @@ task SortAndFixTags {
   
     Int compression_level
     Int preemptible_tries
-    Int disk_size = ceil(size(input_bam, "GB")  * 6 + 10)
+    Int disk_size = ceil(size(input_bam, "GB")  * 6 ) + 10
     Float mem_size_gb = 10
 
     String docker_image
@@ -457,7 +457,7 @@ task MarkDuplicates {
   
     Int compression_level
     Int preemptible_tries
-    Int disk_size = ceil(size(input_bams, "GB")  * 6 )
+    Int disk_size = ceil(size(input_bams, "GB")  * 6 ) + 10
     Float mem_size_gb = 7.5
 
     String docker_image
