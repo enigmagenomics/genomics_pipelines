@@ -407,7 +407,7 @@ task SortAndFixTags {
   
     Int compression_level
     Int preemptible_tries
-    Int disk_size = ceil(size(input_bam, "GB")  * 6 )
+    Int disk_size = ceil(size(input_bam, "GB")  * 6 + 10)
     Float mem_size_gb = 10
 
     String docker_image
@@ -439,7 +439,7 @@ task SortAndFixTags {
     preemptible: preemptible_tries
     docker: docker_image
     memory: "~{mem_size_gb} GiB"
-    disks: "local-disk " + disk_size + mem_size_gb + " HDD"
+    disks: "local-disk " + disk_size + " HDD"
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
