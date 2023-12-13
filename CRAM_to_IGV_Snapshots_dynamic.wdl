@@ -537,7 +537,7 @@ task UnZip {
     echo "bgzip -d -c ~{vcfFileGz} > vcfFile.vcf"
     bgzip -d -c ~{vcfFileGz} > ~{sampleId}.vcf
 
-        echo "bgzip -d -c ~{gvcfGz} > gvcfFile.vcf"
+        echo "bgzip -d -c ~{gvcfFileGz} > gvcfFile.vcf"
     bgzip -d -c ~{gvcfFileGz} > ~{sampleId}.gvcf
    >>>
 
