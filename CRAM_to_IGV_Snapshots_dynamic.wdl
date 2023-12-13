@@ -122,6 +122,7 @@ Int nearestGeneDistance
     call UnZip { 
         input:
             vcfFileGz = bgzip.filtered_vcf,
+            gvcfFileGz=deep_variant.gvcf,
             sampleId = samplename,
             RAM=RAM,
             HDD=HDD
@@ -131,6 +132,7 @@ Int nearestGeneDistance
         input:
 
             vcfFile=UnZip.vcfFile,
+            gvcfFile=UnZip.gvcfFile,
             refFasta=ref_fasta,
             refFastaDict=ref_fasta_dict,
             refFastaIdx=ref_fasta_index,
@@ -243,6 +245,8 @@ Int nearestGeneDistance
         String variantcount = variantcount_vcf.variantcount
         File normalizedVCF= VTRecal.normalizedVCF
         File normalizedVCF_index= VTRecal.normalizedVCF_index
+        File normalizedGVCF= VTRecal.normalizedGVCF
+        File normalizedGVCF_index= VTRecal.normalizedGVCF_index
         #VEP:
         File vepannotated_vcf= combineOutputFiles.vepannotated_vcf
         #variant_filtering:
@@ -523,6 +527,7 @@ task variantcount_vcf {
 task UnZip {
     input {
     File vcfFileGz
+    File gvcfFileGz
     String sampleId
     Int RAM
     Int HDD
@@ -531,10 +536,14 @@ task UnZip {
     # Decompress bgzipped merged VCF file
     echo "bgzip -d -c ~{vcfFileGz} > vcfFile.vcf"
     bgzip -d -c ~{vcfFileGz} > ~{sampleId}.vcf
+
+        echo "bgzip -d -c ~{gvcfGz} > gvcfFile.vcf"
+    bgzip -d -c ~{gvcfFileGz} > ~{sampleId}.gvcf
    >>>
 
     output {
         File vcfFile="~{sampleId}.vcf"
+        File vcfFile="~{sampleId}.gvcf"
     }
     runtime {
         docker: "vanallenlab/vt:3.13.2018"
@@ -547,7 +556,8 @@ task UnZip {
 
 task VTRecal {
     input {
-    File vcfFile 
+    File vcfFile
+    File gvcfFile 
     File refFasta
     File refFastaIdx
     File refFastaDict
@@ -556,7 +566,7 @@ task VTRecal {
     Int HDD
 }
     command <<<
-
+    # VCF:
         echo "########### decompose VCF"
         /software/vt/./vt decompose -s \
         -o ~{sampleId}.vt1.vcf \
@@ -574,11 +584,35 @@ task VTRecal {
         
         echo "########### creating an index for vcf.gz:"
         tabix -p vcf ~{sampleId}.vt2_normalized_spanning_alleles.vcf.gz 
+
+
+
+
+    #GVCF:
+        echo "########### decompose gVCF"
+        /software/vt/./vt decompose -s \
+        -o ~{sampleId}.vt1.gvcf \
+        ~{gvcfFile}
+
+        echo "########### normalize VCF using ch38 genome build"
+        /software/vt/./vt normalize \
+        -r ~{refFasta} \
+        -o ~{sampleId}.vt2.gvcf \
+        ~{sampleId}.vt1.gvcf
+        
+        echo "########### normalizing the spanning alleles (*):"
+        sed 's/*/-/g' ~{sampleId}.vt2.gvcf > ~{sampleId}.vt2_normalized_spanning_alleles.gvcf
+        bgzip ~{sampleId}.vt2_normalized_spanning_alleles.gvcf
+        
+        echo "########### creating an index for vcf.gz:"
+        tabix -p vcf ~{sampleId}.vt2_normalized_spanning_alleles.gvcf.gz 
    >>>
 
     output {
         File normalizedVCF="~{sampleId}.vt2_normalized_spanning_alleles.vcf.gz"
         File normalizedVCF_index="~{sampleId}.vt2_normalized_spanning_alleles.vcf.gz.tbi"
+        File normalizedGVCF="~{sampleId}.vt2_normalized_spanning_alleles.gvcf.gz"
+        File normalizedGVCF_index="~{sampleId}.vt2_normalized_spanning_alleles.gvcf.gz.tbi"
     }
 
     runtime {
