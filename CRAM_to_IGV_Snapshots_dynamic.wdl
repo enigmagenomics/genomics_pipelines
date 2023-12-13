@@ -543,7 +543,7 @@ task UnZip {
 
     output {
         File vcfFile="~{sampleId}.vcf"
-        File vcfFile="~{sampleId}.gvcf"
+        File gvcfFile="~{sampleId}.gvcf"
     }
     runtime {
         docker: "vanallenlab/vt:3.13.2018"
