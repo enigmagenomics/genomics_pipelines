@@ -594,25 +594,25 @@ task VTRecal {
         -o ~{sampleId}.vt1.gvcf \
         ~{gvcfFile}
 
-        echo "########### normalize VCF using ch38 genome build"
-        /software/vt/./vt normalize \
-        -r ~{refFasta} \
-        -o ~{sampleId}.vt2_normalized_spanning_alleles.gvcf.gz \
-        ~{sampleId}.vt1.gvcf
+       # echo "########### normalize VCF using ch38 genome build"
+       # /software/vt/./vt normalize \
+       # -r ~{refFasta} \
+      #  -o ~{sampleId}.vt2_normalized_spanning_alleles.gvcf.gz \
+       # ~{sampleId}.vt1.gvcf
         
-        echo "########### normalizing the spanning alleles (*):"
+       # echo "########### normalizing the spanning alleles (*):"
         #sed 's/*/-/g' ~{sampleId}.vt2.gvcf > ~{sampleId}.vt2_normalized_spanning_alleles.gvcf
         #bgzip ~{sampleId}.vt2_normalized_spanning_alleles.gvcf
         
         echo "########### creating an index for vcf.gz:"
-        tabix -p vcf ~{sampleId}.vt2_normalized_spanning_alleles.gvcf.gz 
+        tabix -p vcf ~{sampleId}.vt1.gvcf.gz 
    >>>
 
     output {
         File normalizedVCF="~{sampleId}.vt2_normalized_spanning_alleles.vcf.gz"
         File normalizedVCF_index="~{sampleId}.vt2_normalized_spanning_alleles.vcf.gz.tbi"
-        File normalizedGVCF="~{sampleId}.vt2_normalized_spanning_alleles.gvcf.gz"
-        File normalizedGVCF_index="~{sampleId}.vt2_normalized_spanning_alleles.gvcf.gz.tbi"
+        File normalizedGVCF="~{sampleId}.vt1.gvcf.gz"
+        File normalizedGVCF_index="~{sampleId}.vt1.gvcf.gz.tbi"
     }
 
     runtime {
