@@ -534,13 +534,10 @@ task UnZip {
     echo "bgzip -d -c ~{vcfFileGz} > vcfFile.vcf"
     bgzip -d -c ~{vcfFileGz} > ~{sampleId}.vcf
 
-    #echo "bgzip -d -c ~{gvcfFileGz} > gvcfFile.vcf"
-    #bgzip -d -c ~{gvcfFileGz} > ~{sampleId}.gvcf
    >>>
 
     output {
         File vcfFile="~{sampleId}.vcf"
-       # File gvcfFile="~{sampleId}.gvcf"
     }
     runtime {
         docker: "vanallenlab/vt:3.13.2018"
