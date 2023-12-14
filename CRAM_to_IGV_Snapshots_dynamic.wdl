@@ -537,7 +537,7 @@ task UnZip {
     echo "bgzip -d -c ~{vcfFileGz} > vcfFile.vcf"
     bgzip -d -c ~{vcfFileGz} > ~{sampleId}.vcf
 
-        echo "bgzip -d -c ~{gvcfFileGz} > gvcfFile.vcf"
+    echo "bgzip -d -c ~{gvcfFileGz} > gvcfFile.vcf"
     bgzip -d -c ~{gvcfFileGz} > ~{sampleId}.gvcf
    >>>
 
@@ -597,12 +597,12 @@ task VTRecal {
         echo "########### normalize VCF using ch38 genome build"
         /software/vt/./vt normalize \
         -r ~{refFasta} \
-        -o ~{sampleId}.vt2.gvcf \
+        -o ~{sampleId}.vt2_normalized_spanning_alleles.gvcf.gz \
         ~{sampleId}.vt1.gvcf
         
         echo "########### normalizing the spanning alleles (*):"
-        sed 's/*/-/g' ~{sampleId}.vt2.gvcf > ~{sampleId}.vt2_normalized_spanning_alleles.gvcf
-        bgzip ~{sampleId}.vt2_normalized_spanning_alleles.gvcf
+        #sed 's/*/-/g' ~{sampleId}.vt2.gvcf > ~{sampleId}.vt2_normalized_spanning_alleles.gvcf
+        #bgzip ~{sampleId}.vt2_normalized_spanning_alleles.gvcf
         
         echo "########### creating an index for vcf.gz:"
         tabix -p vcf ~{sampleId}.vt2_normalized_spanning_alleles.gvcf.gz 
