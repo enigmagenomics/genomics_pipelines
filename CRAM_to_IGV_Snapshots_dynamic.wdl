@@ -243,8 +243,6 @@ Int nearestGeneDistance
         String variantcount = variantcount_vcf.variantcount
         File normalizedVCF= VTRecal.normalizedVCF
         File normalizedVCF_index= VTRecal.normalizedVCF_index
-        #File normalizedGVCF= VTRecal.normalizedGVCF
-        #File normalizedGVCF_index= VTRecal.normalizedGVCF_index
         #VEP:
         File vepannotated_vcf= combineOutputFiles.vepannotated_vcf
         #variant_filtering:
@@ -605,8 +603,7 @@ task VTRecal {
     output {
         File normalizedVCF="~{sampleId}.vt2_normalized_spanning_alleles.vcf.gz"
         File normalizedVCF_index="~{sampleId}.vt2_normalized_spanning_alleles.vcf.gz.tbi"
-        #File normalizedGVCF="~{sampleId}.vt1.gvcf.gz"
-        #File normalizedGVCF_index="~{sampleId}.vt1.gvcf.gz.tbi"
+
     }
 
     runtime {
