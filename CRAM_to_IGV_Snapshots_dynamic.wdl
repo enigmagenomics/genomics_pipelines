@@ -548,8 +548,7 @@ task UnZip {
 
 task VTRecal {
     input {
-    File vcfFile
-    File gvcfFile 
+    File vcfFile 
     File refFasta
     File refFastaIdx
     File refFastaDict
