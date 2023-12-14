@@ -243,8 +243,8 @@ Int nearestGeneDistance
         String variantcount = variantcount_vcf.variantcount
         File normalizedVCF= VTRecal.normalizedVCF
         File normalizedVCF_index= VTRecal.normalizedVCF_index
-        File normalizedGVCF= VTRecal.normalizedGVCF
-        File normalizedGVCF_index= VTRecal.normalizedGVCF_index
+        #File normalizedGVCF= VTRecal.normalizedGVCF
+        #File normalizedGVCF_index= VTRecal.normalizedGVCF_index
         #VEP:
         File vepannotated_vcf= combineOutputFiles.vepannotated_vcf
         #variant_filtering:
