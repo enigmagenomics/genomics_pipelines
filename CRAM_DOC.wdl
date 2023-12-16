@@ -12,6 +12,7 @@ workflow mega_pipeline {
     File inputCramIndex
     File master_gene_list
     File GOF_gene_list
+    File geneList
     String samplename
     String output_files_path
 Int memoryGb
