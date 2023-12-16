@@ -348,7 +348,7 @@ task MergeBamAlignment {
 
     Int compression_level
     Int preemptible_tries
-    Int disk_size = ceil(size(unmapped_bam, "GB")  * 6 )
+    Int disk_size = ceil(size(unmapped_bam, "GB")  * 6 ) + 30
     Float mem_size_gb = 4
 
     String docker_image
@@ -407,7 +407,7 @@ task SortAndFixTags {
   
     Int compression_level
     Int preemptible_tries
-    Int disk_size = ceil(size(input_bam, "GB")  * 6 ) + 10
+    Int disk_size = ceil(size(input_bam, "GB")  * 6 ) + 30
     Float mem_size_gb = 10
 
     String docker_image
@@ -642,7 +642,7 @@ task ApplyBQSR {
     File ref_fasta_index
 
     Int preemptible_tries
-    Int disk_size = ceil(size(input_bam, "GB")  * 2 + 5 )
+    Int disk_size = ceil(size(input_bam, "GB")  * 2  ) + 30
     Float mem_size_gb = 4
 
     String docker_image
