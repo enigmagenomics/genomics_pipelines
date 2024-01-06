@@ -15,7 +15,6 @@ workflow mega_pipeline {
     String samplename
     String output_files_path
     String TestType
-
 File    geneList
 Int runtime_disk
 File    WGS_interval_list
