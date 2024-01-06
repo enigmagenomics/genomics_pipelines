@@ -229,7 +229,7 @@ Int nearestGeneDistance
         File sampleGeneSummary = depthOfCov.sampleGeneSummary
         File sampleSummary = depthOfCov.sampleSummary
         Float sampleMeanCoverage = depthOfCov.sampleMeanCoverage
-        Float sampleMeanCoverage = depthOfCov.sample10XCoverage
+        Float sample10XCoverage = depthOfCov.sample10XCoverage
         File sampleStatistics = depthOfCov.sampleStatistics
         File sampleIntervalSummary = depthOfCov.sampleIntervalSummary
         File sampleIntervalStatistics = depthOfCov.sampleIntervalStatistics
