@@ -229,6 +229,7 @@ Int nearestGeneDistance
         File sampleGeneSummary = depthOfCov.sampleGeneSummary
         File sampleSummary = depthOfCov.sampleSummary
         Float sampleMeanCoverage = depthOfCov.sampleMeanCoverage
+        Float sampleMeanCoverage = depthOfCov.sample10XCoverage
         File sampleStatistics = depthOfCov.sampleStatistics
         File sampleIntervalSummary = depthOfCov.sampleIntervalSummary
         File sampleIntervalStatistics = depthOfCov.sampleIntervalStatistics
@@ -286,6 +287,7 @@ task depthOfCov {
         gatk --java-options "-Xmx16G" DepthOfCoverage -R ~{refFasta} -O ~{sampleName} --omit-depth-output-at-each-base true -pt sample -gene-list ~{geneList} -I Cramfile.cram -L ~{intervalList} --min-base-quality ~{minBaseQuality} --summary-coverage-threshold 10
         
         sed -n "2p" < "~{sampleName}.sample_summary" | cut -d',' -f3 > sample_mean_coverage.txt
+        sed -n "2p" < "~{sampleName}.sample_summary" | cut -d',' -f7 > sample_10X_coverage.txt
 
         mv "~{sampleName}.sample_gene_summary" "~{sampleName}.sample_gene_summary.csv"
         mv "~{sampleName}.sample_summary" "~{sampleName}.sample_summary.csv"
@@ -301,6 +303,7 @@ task depthOfCov {
         File sampleGeneSummary = "~{sampleName}.sample_gene_summary.csv"
         File sampleSummary = "~{sampleName}.sample_summary.csv"
         Float sampleMeanCoverage = read_float("sample_mean_coverage.txt")
+        Float sample10XCoverage = read_float("sample_10X_coverage.txt")
         File sampleStatistics = "~{sampleName}.sample_statistics.csv"
         File sampleIntervalSummary = "~{sampleName}.sample_interval_summary.csv"
         File sampleIntervalStatistics = "~{sampleName}.sample_interval_statistics.csv"
