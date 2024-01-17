@@ -402,7 +402,7 @@ task deep_variant {
     Int runtime_cpus
     String runtime_docker
     Int runtime_memory = ceil(1.1 * runtime_cpus)
-    Int addtional_disk_space_gb = 25
+    Int addtional_disk_space_gb
     Int disk_space_gb = ceil(size(Cram, "GB")  * 4 ) + addtional_disk_space_gb
     Int runtime_preemptible
     Int resource_log_interval
