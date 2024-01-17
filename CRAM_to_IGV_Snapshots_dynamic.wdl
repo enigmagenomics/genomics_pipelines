@@ -48,6 +48,7 @@ Int diskGb_VEP
 Int fork
 Int memoryGb_VEP
 Int nearestGeneDistance
+Int DV_addtional_disk_space_gb
 
 
     }
