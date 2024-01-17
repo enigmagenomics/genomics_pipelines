@@ -99,7 +99,8 @@ Int DV_addtional_disk_space_gb
             resource_log_interval=resource_log_interval,
             runtime_cpus=runtime_cpus,
             runtime_docker=runtime_docker,
-            runtime_preemptible=runtime_preemptible
+            runtime_preemptible=runtime_preemptible,
+            addtional_disk_space_gb=DV_addtional_disk_space_gb
     }
 
     call bgzip {
